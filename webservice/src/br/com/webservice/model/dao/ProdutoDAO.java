@@ -5,8 +5,9 @@ import javax.persistence.EntityManager;
 
 import br.com.webservice.model.domian.Produto;
 
-public class ProdutoDAO implements DAOImpl {
+public class ProdutoDAO implements ProdutoDAOImpl {
 
+    @Override
     public List<Produto> getAll() {
         EntityManager em = JPAUtil.getEntityManager();
         List<Produto> produtos = null;
@@ -20,6 +21,7 @@ public class ProdutoDAO implements DAOImpl {
         return produtos;
     }
 
+    @Override
     public Produto getById(long id) {
         EntityManager em = JPAUtil.getEntityManager();
         Produto produto = null;
@@ -32,6 +34,7 @@ public class ProdutoDAO implements DAOImpl {
         return produto;
     }
 
+    @Override
     public Produto save(Produto produto) {
         EntityManager em = JPAUtil.getEntityManager();
 
@@ -45,6 +48,7 @@ public class ProdutoDAO implements DAOImpl {
         return produto;
     }
 
+    @Override
     public Produto update(Produto produto) {
         EntityManager em = JPAUtil.getEntityManager();
         Produto produtoManaged = null;
@@ -63,6 +67,7 @@ public class ProdutoDAO implements DAOImpl {
         return produtoManaged;
     }
 
+    @Override
     public Produto delete(Long id) {
         EntityManager em = JPAUtil.getEntityManager();
         Produto produto = null;
