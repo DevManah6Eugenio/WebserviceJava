@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 
 import br.com.webservice.model.domian.Produto;
 
-public class ProdutoDAO implements ProdutoDAOImpl {
+public class ProdutoDAO implements DAOImpl<Produto> {
 
     @Override
     public List<Produto> getAll() {
