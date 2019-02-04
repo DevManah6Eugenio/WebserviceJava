@@ -32,31 +32,6 @@ public class ProdutoDAO {
 		return produto;
 	}
 
-	public List<Produto> getAll() {
-		EntityManager em = JPAUtil.getEntityManager();
-		List<Produto> produtos = null;
-
-		try {
-			produtos = em.createQuery("select p from Produto p", Produto.class).getResultList();
-		} finally {
-			em.close();
-		}
-
-		return produtos;
-	}
-
-	public Produto getById(long id) {
-		EntityManager em = JPAUtil.getEntityManager();
-		Produto produto = null;
-
-		try {
-			produto = em.find(Produto.class, id);
-		} finally {
-			em.close();
-		}
-		return produto;
-	}
-
 	public Produto save(Produto produto) {
 		EntityManager em = JPAUtil.getEntityManager();
 
