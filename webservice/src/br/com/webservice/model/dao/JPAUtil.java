@@ -6,12 +6,12 @@ import javax.persistence.Persistence;
 
 public class JPAUtil {
 
-	private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf;
 
-	public static EntityManager getEntityManager() {
-		if (emf == null) {
-			emf = Persistence.createEntityManagerFactory("produtos");
-		}
-		return emf.createEntityManager();
-	}
+    public static EntityManager getEntityManager() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("produtos");
+        }
+        return emf.createEntityManager();
+    }
 }

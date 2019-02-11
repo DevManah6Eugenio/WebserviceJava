@@ -4,7 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import br.com.webservice.exceptions.DAOException;
-import br.com.webservice.exceptions.ErroCode;
+import br.com.webservice.exceptions.ErrorCode;
 import br.com.webservice.model.domian.Produto;
 
 public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
@@ -18,7 +18,7 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
             produtos = em.createQuery("select p from Produto p", Produto.class).getResultList();
         } catch (RuntimeException ex) {
             throw new DAOException("Erro ao recuperar todos os produtos do banco: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
@@ -32,20 +32,20 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         Produto produto = null;
 
         if (id <= 0) {
-            throw new DAOException("O id precisa ser maior do que 0.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("O id precisa ser maior do que 0.", ErrorCode.BAD_REQUEST.getCode());
         }
 
         try {
             produto = em.find(Produto.class, id);
         } catch (RuntimeException ex) {
             throw new DAOException("Erro ao buscar produto por id no banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
 
         if (produto == null) {
-            throw new DAOException("Produto de id " + id + " nao existe.", ErroCode.NOT_FOUND.getCode());
+            throw new DAOException("Produto de id " + id + " nao existe.", ErrorCode.NOT_FOUND.getCode());
         }
         return produto;
     }
@@ -55,7 +55,7 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         EntityManager em = JPAUtil.getEntityManager();
 
         if (!produtoIsValid(produto)) {
-            throw new DAOException("Produto com dados incompletos.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("Produto com dados incompletos.", ErrorCode.BAD_REQUEST.getCode());
         }
 
         try {
@@ -65,7 +65,7 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         } catch (RuntimeException ex) {
             em.getTransaction().rollback();
             throw new DAOException("Erro ao salvar produto no banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
@@ -78,10 +78,10 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         Produto produtoManaged = null;
 
         if (produto.getId() <= 0) {
-            throw new DAOException("O id precisa ser maior do que 0.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("O id precisa ser maior do que 0.", ErrorCode.BAD_REQUEST.getCode());
         }
         if (!produtoIsValid(produto)) {
-            throw new DAOException("Produto com dados incompletos.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("Produto com dados incompletos.", ErrorCode.BAD_REQUEST.getCode());
         }
 
         try {
@@ -93,11 +93,11 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         } catch (NullPointerException ex) {
             em.getTransaction().rollback();
             throw new DAOException("Produto informado para atualizacao nao existe: " + ex.getMessage(),
-                    ErroCode.NOT_FOUND.getCode());
+                    ErrorCode.NOT_FOUND.getCode());
         } catch (RuntimeException ex) {
             em.getTransaction().rollback();
             throw new DAOException("Erro ao atualizar produto no banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
@@ -110,7 +110,7 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         Produto produto = null;
 
         if (id <= 0) {
-            throw new DAOException("O id precisa ser maior do que 0.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("O id precisa ser maior do que 0.", ErrorCode.BAD_REQUEST.getCode());
         }
 
         try {
@@ -121,11 +121,11 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
         } catch (IllegalArgumentException ex) {
             em.getTransaction().rollback();
             throw new DAOException("Produto informado para remocao nao existe: " + ex.getMessage(),
-                    ErroCode.NOT_FOUND.getCode());
+                    ErrorCode.NOT_FOUND.getCode());
         } catch (RuntimeException ex) {
             em.getTransaction().rollback();
             throw new DAOException("Erro ao remover produto do banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
@@ -139,7 +139,7 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
                 return false;
             }
         } catch (NullPointerException ex) {
-            throw new DAOException("Produto com dados incompletos.", ErroCode.BAD_REQUEST.getCode());
+            throw new DAOException("Produto com dados incompletos.", ErrorCode.BAD_REQUEST.getCode());
         }
 
         return true;
@@ -154,13 +154,13 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
                     .setMaxResults(maxResults).getResultList();
         } catch (RuntimeException ex) {
             throw new DAOException("Erro ao buscar produtos no banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
 
         if (produtos.isEmpty()) {
-            throw new DAOException("Pagina com produtos vazia.", ErroCode.NOT_FOUND.getCode());
+            throw new DAOException("Pagina com produtos vazia.", ErrorCode.NOT_FOUND.getCode());
         }
 
         return produtos;
@@ -176,12 +176,12 @@ public class ProdutoDAO implements ProdutoDAOImpl<Produto> {
                     .setParameter("name", "%" + name + "%").getResultList();
         } catch (RuntimeException ex) {
             throw new DAOException("Erro ao buscar produtos por nome no banco de dados: " + ex.getMessage(),
-                    ErroCode.SERVER_ERROR.getCode());
+                    ErrorCode.SERVER_ERROR.getCode());
         } finally {
             em.close();
         }
         if (produtos.isEmpty()) {
-            throw new DAOException("A consulta nao encontrou produtos.", ErroCode.NOT_FOUND.getCode());
+            throw new DAOException("A consulta nao encontrou produtos.", ErrorCode.NOT_FOUND.getCode());
         }
 
         return produtos;
